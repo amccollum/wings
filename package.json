@@ -1,0 +1,20 @@
+{
+    "name": "wings",
+    "version": "0.1.0",
+    "description": "Templating library that works on the server and client closely modeled on Mustache",
+    "keywords": ["ender", "template", "mustache", "html"],
+    "author": "Andrew McCollum <amccollum@gmail.com>",
+    "url": "http://github.com/amccollum/wings",
+    "repositories": [{ "type": "git", "url": "http://github.com/amccollum/wings.git" }],
+    "licenses": [{ "type": "MIT", "url": "http://opensource.org/licenses/mit-license.php" }],
+    
+    "main": "lib/template.js",
+    "ender": "lib/ender.js",
+    "directories": { "lib": "lib" },
+    
+    "dependencies": { "bonzo": "*" },
+    "devDependencies": {
+        "coffee-script": "*",
+        "vows": "*"
+    }
+}
