@@ -4,6 +4,11 @@ vows = require('vows');
 template = require('../lib/template.js');
 t = template.renderTemplate;
 equal = assert.equal;
+if (!(vows.add != null)) {
+  vows.add = function(name, batch) {
+    return vows.describe(name).addBatch(batch)["export"](module);
+  };
+}
 vows.add('templates', {
   'basics:': {
     'an empty template': {
@@ -77,7 +82,7 @@ vows.add('templates', {
       }
     },
     'a template with comment tags': {
-      topic: t('There are comments{#comment} in this template{# longer comment }.'),
+      topic: t('There are comments{# comment #} in this template{# longer comment #}.'),
       'should remove the comments when rendered': function(topic) {
         return equal(topic, 'There are comments in this template.');
       }

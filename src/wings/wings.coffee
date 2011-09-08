@@ -23,12 +23,13 @@
     
     parse_re = ///
         \s* \{([!:]) \s* ([^}]*?) \s*\ } ([\S\s]+?) \s* \{/ \s* \2 \s*\} |     # sections
-        \{([#@&]?) \s* ([^}]*?) \s* \}                                         # tags
+        \{([@&]?) \s* ([^}]*?) \s* \} |                                        # tags
+        \{(\#) \s* [\S\s]+? \s* \#\}                                           # comments
     ///mg
 
     renderRawTemplate = (template, data, links) ->
-        template.replace parse_re, (match, section_op, section_name, section_content, tag_op, tag_name) ->
-            op = section_op or tag_op
+        template.replace parse_re, (match, section_op, section_name, section_content, tag_op, tag_name, comment_op) ->
+            op = section_op or tag_op or comment_op
             name = section_name or tag_name
             content = section_content
 
