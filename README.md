@@ -6,6 +6,15 @@ It is based on [Mustache](http://mustache.github.com/), but the syntax is less
 verbose and a few advanced features are sacrificed for small code size
 (0.75kb compressed!).
 
+Usage
+-----
+
+The module just exposes one function,
+`wings.renderTemplate(template, data, links)`. When used with
+Ender, this function is aliased as `$.render`, which can also be called on
+selected elements. In the latter case, the function takes two arguments, and
+the contents of the element will be rendered as the template and returned.
+
 Syntax
 ------
 
