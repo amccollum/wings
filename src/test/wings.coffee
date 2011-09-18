@@ -5,7 +5,7 @@ template = require('../lib/template.js')
 t = template.renderTemplate
 equal = assert.equal
 
-if not vows.add?
+if not vows.add
     vows.add = (name, batch) -> vows.describe(name).addBatch(batch).export(module)
 
 vows.add 'templates'

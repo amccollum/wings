@@ -15,6 +15,6 @@
     "dependencies": { "bonzo": "*" },
     "devDependencies": {
         "coffee-script": "*",
-        "vows": "*"
+        "ender-vows": "*"
     }
 }

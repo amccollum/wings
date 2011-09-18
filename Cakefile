@@ -19,5 +19,6 @@ task 'test', 'Build and run the test suite', ->
     execCmds [
         'coffee --bare --output ./test ./src/test/*.coffee',
         'npm install --dev',
+        'ln -s ender-vows node_modules/vows',
         'node_modules/.bin/vows ./test/*.js'
     ]
