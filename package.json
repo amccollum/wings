@@ -11,7 +11,6 @@
     "main": "lib/template.js",
     "ender": "lib/ender.js",
     "directories": { "lib": "lib" },
-
     "devDependencies": {
         "coffee-script": "*",
         "ender-vows": "*"
