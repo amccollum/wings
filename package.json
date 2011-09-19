@@ -1,6 +1,6 @@
 {
     "name": "wings",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Templating library that works on the server and client closely modeled on Mustache",
     "keywords": ["ender", "template", "mustache", "html"],
     "author": "Andrew McCollum <amccollum@gmail.com>",
@@ -12,7 +12,6 @@
     "ender": "lib/ender.js",
     "directories": { "lib": "lib" },
     
-    "dependencies": { "bonzo": "*" },
     "devDependencies": {
         "coffee-script": "*",
         "ender-vows": "*"
