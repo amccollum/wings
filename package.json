@@ -7,11 +7,11 @@
     "url": "http://github.com/amccollum/wings",
     "repositories": [{ "type": "git", "url": "http://github.com/amccollum/wings.git" }],
     "licenses": [{ "type": "MIT", "url": "http://opensource.org/licenses/mit-license.php" }],
-    
+
     "main": "lib/template.js",
     "ender": "lib/ender.js",
     "directories": { "lib": "lib" },
-    
+
     "devDependencies": {
         "coffee-script": "*",
         "ender-vows": "*"
