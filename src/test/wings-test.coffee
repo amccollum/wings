@@ -93,18 +93,6 @@ vows.add 'templates'
 
 
     'sections:':
-        'templates with existence sections':
-            topic: [
-                t('{?absent}foo{/absent}bar', {}),
-                t('{?exists}foo{/exists}bar', {exists: true}),
-                t('{?falsy}foo{/falsy}bar',   {falsy: false}),
-            ]
-    
-            'should only include the section when the tag is defined': (topics) ->
-                equal topics[0], 'bar'
-                equal topics[1], 'foobar'
-                equal topics[2], 'foobar'
-
         'templates with regular sections':
             topic: [
                 t('{:falsy}foo{/falsy}bar', {falsy: 0}),
@@ -189,4 +177,30 @@ vows.add 'templates'
                                 tmpl2: '{:untrue}foo{/untrue}bar',
                                 tmpl3: 'nested {{ {:truthy} {{ braces }} {{ {/truthy} }}',
                              '''.replace(/\n/g, '')
+
+        'templates with existence sections':
+            topic: [
+                t('{?absent}foo{/absent}bar', {}),
+                t('{?exists}foo{/exists}bar', {exists: true}),
+                t('{?falsy}foo{/falsy}bar',   {falsy: false}),
+            ]
+    
+            'should only include the section when the tag is defined': (topics) ->
+                equal topics[0], 'bar'
+                equal topics[1], 'foobar'
+                equal topics[2], 'foobar'
+
+        'templates with combined sections':
+            topic: [
+                t('{?:absent}{foo}{bar}{baz}{/absent}', {}),
+                t('{?:obj}{foo}{bar}{baz}{/obj}', {obj: {foo: '1', bar: '2', baz: '3'}}),
+                t('{?!absent}foo{/absent}bar', {}),
+                t('{?!falsy}foo{/falsy}bar', {falsy: false}),
+            ]
+        
+            'should use the object as the new environment': (topics) ->
+                equal topics[0], ''
+                equal topics[1], '123'
+                equal topics[2], 'bar'
+                equal topics[3], 'foobar'
 

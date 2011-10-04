@@ -22,7 +22,7 @@
                 else return s
     
     parse_re = ///
-        \s* \{([:!?]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |     # sections
+        \s* \{([?:!]+) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |     # sections
         \{(\#) \s* [\S\s]+? \s* \#\} |                                          # comments
         \{([@&]?) \s* ([^}]*?) \s* \}                                           # tags
     ///mg
@@ -41,10 +41,13 @@
                     else
                         return ""
             
-                when ':' # section
+                when ':', '?:' # section
                     value = data[name]
                     if not value?
-                        throw "Invalid section: #{data}: #{name}: #{value}"
+                        if op == ':'
+                            throw "Invalid section: #{data}: #{name}: #{value}"
+                        else
+                            return ""
         
                     else if isArray(value)
                         parts = []
@@ -66,10 +69,13 @@
                     else
                         return ""
     
-                when '!' # inverted section
+                when '!', '?!' # inverted section
                     value = data[name]
                     if not value?
-                        throw "Invalid inverted section: #{data}: #{name}: #{value}"
+                        if op == '!'
+                            throw "Invalid inverted section: #{data}: #{name}: #{value}"
+                        else
+                            return ""
                         
                     else if not value or (isArray(value) and value.length == 0)
                         return renderRawTemplate(content, data, links)
@@ -108,4 +114,7 @@
 
                     return (if op == '&' then value else escapeXML(value))
 
+                else
+                    throw "Invalid op: #{op}"
+                        
 )(exports ? (@['wings'] = {}))

@@ -110,6 +110,12 @@ Existence sections are rendered when the value is present.
     The foo value was defined, but may be false.
     {/foo}
 
+For brevity, existence sections can be combined with normal or inverted sections:
+
+    {?:foo}
+    This section acts like a normal section, but will be omitted if foo is undefined.
+    {/foo}
+
 Acknowledgements
 ----------------
 
