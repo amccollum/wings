@@ -28,7 +28,7 @@
     ///mg
 
     renderRawTemplate = (template, data, links) ->
-        template.replace parse_re, (match, section_op, section_name, section_content, comment_op, tag_op, tag_name) ->
+        template.replace parse_re, (all, section_op, section_name, section_content, comment_op, tag_op, tag_name) ->
             op = section_op or comment_op or tag_op
             name = section_name or tag_name
             content = section_content
@@ -99,12 +99,10 @@
 
                 when '&', '' # value tag
                     value = data
-                    while value and name
-                        [part, name] = name.match(/^([^.]*)\.?(.*)$/)[1..]
-                        if part of value
-                            value = value[part]
-                        else
-                            value = null
+                    rest = name
+                    while value and rest
+                        [all, part, rest] = rest.match(/^([^.]*)\.?(.*)$/)
+                        value = value[part]
                     
                     if not value?
                         throw "Invalid value: #{JSON.stringify(data)}: #{name}"

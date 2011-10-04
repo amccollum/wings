@@ -40,7 +40,7 @@ vows.add 'templates'
 
         'a template with multiple tags':
             topic: t('The {adj1}, {adj2} fox {verb1} over the {adj3} dogs.',
-                            {adj1:'quick', adj2:'brown', adj3:'lazy', verb1:'jumped'})
+                     {adj1:'quick', adj2:'brown', adj3:'lazy', verb1:'jumped'})
         
             'should replace all the tags': (topic) ->
                 equal topic, 'The quick, brown fox jumped over the lazy dogs.'
@@ -48,7 +48,7 @@ vows.add 'templates'
 
         'a template with dotted tags':
             topic: t('The {adjs.adj1}, {adjs.adj2} fox {verbs.verb1} over the {adjs.adj3} dogs.',
-                            {adjs: {adj1:'quick', adj2:'brown', adj3:'lazy'}, verbs: {verb1:'jumped'}})
+                     {adjs: {adj1:'quick', adj2:'brown', adj3:'lazy'}, verbs: {verb1:'jumped'}})
                         
             'should replace the tags with the object properties': (topic) ->
                 equal topic, 'The quick, brown fox jumped over the lazy dogs.'
