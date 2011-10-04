@@ -95,8 +95,20 @@ replace the section.
 #### Inverted Sections ####
 
 Inverted sections are like normal sections, except that the section will
-only be rendered if the value is false or the given array is empty.
+only be rendered if the value is false or the given array is empty:
 
+    {!foo}
+    The foo value was false.
+    {/foo}
+    
+
+#### Existence Sections ####
+
+Existence sections are rendered when the value is present.
+
+    {?foo}
+    The foo value was defined, but may be false.
+    {/foo}
 
 Acknowledgements
 ----------------

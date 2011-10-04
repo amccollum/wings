@@ -22,7 +22,7 @@
                 else return s
     
     parse_re = ///
-        \s* \{([!:]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |      # sections
+        \s* \{([:!?]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |     # sections
         \{(\#) \s* [\S\s]+? \s* \#\} |                                          # comments
         \{([@&]?) \s* ([^}]*?) \s* \}                                           # tags
     ///mg
@@ -34,6 +34,13 @@
             content = section_content
 
             switch op
+                when '?' # existence section
+                    if name of data
+                        return renderRawTemplate(content, data, links)
+                        
+                    else
+                        return ""
+            
                 when ':' # section
                     value = data[name]
                     if not value?

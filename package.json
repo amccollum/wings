@@ -1,6 +1,6 @@
 {
     "name": "wings",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "Templating library that works on the server and client closely modeled on Mustache",
     "keywords": ["ender", "template", "mustache", "html"],
     "author": "Andrew McCollum <amccollum@gmail.com>",

@@ -93,18 +93,30 @@ vows.add 'templates'
 
 
     'sections:':
+        'templates with existence sections':
+            topic: [
+                t('{?absent}foo{/absent}bar', {}),
+                t('{?exists}foo{/exists}bar', {exists: true}),
+                t('{?falsy}foo{/falsy}bar',   {falsy: false}),
+            ]
+    
+            'should only include the section when the tag is defined': (topics) ->
+                equal topics[0], 'bar'
+                equal topics[1], 'foobar'
+                equal topics[2], 'foobar'
+
         'templates with regular sections':
             topic: [
-                t('{:untruthy}foo{/untruthy}bar', {untruthy: 0}),
-                t('{:untruthy}foo{/untruthy}bar', {untruthy: []}),
-                t('{:untruthy}foo{/untruthy}bar', {untruthy: false}),
+                t('{:falsy}foo{/falsy}bar', {falsy: 0}),
+                t('{:falsy}foo{/falsy}bar', {falsy: []}),
+                t('{:falsy}foo{/falsy}bar', {falsy: false}),
             
                 t('{:truthy}foo{/truthy}bar', {truthy: 1}),
                 t('{:truthy}foo{/truthy}bar', {truthy: {}}),
                 t('{:truthy}foo{/truthy}bar', {truthy: true}),
             ]
     
-            'should only include those sections when the tag is truthy': (topics) ->
+            'should only include the section when the tag is truthy': (topics) ->
                 equal topics[0], 'bar'
                 equal topics[1], 'bar'
                 equal topics[2], 'bar'
@@ -114,16 +126,16 @@ vows.add 'templates'
 
         'templates with inverse sections':
             topic: [
-                t('{!untruthy}foo{/untruthy}bar', {untruthy: 0}),
-                t('{!untruthy}foo{/untruthy}bar', {untruthy: []}),
-                t('{!untruthy}foo{/untruthy}bar', {untruthy: false}),
+                t('{!falsy}foo{/falsy}bar', {falsy: 0}),
+                t('{!falsy}foo{/falsy}bar', {falsy: []}),
+                t('{!falsy}foo{/falsy}bar', {falsy: false}),
             
                 t('{!truthy}foo{/truthy}bar', {truthy: 1}),
                 t('{!truthy}foo{/truthy}bar', {truthy: {}}),
                 t('{!truthy}foo{/truthy}bar', {truthy: true}),
             ]
         
-            'should only include those sections when the tag is not truthy': (topics) ->
+            'should only include the section when the tag is not truthy': (topics) ->
                 equal topics[0], 'foobar'
                 equal topics[1], 'foobar'
                 equal topics[2], 'foobar'
