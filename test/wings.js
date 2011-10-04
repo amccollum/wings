@@ -1,10 +1,9 @@
-var assert, equal, t, template, vows;
+var assert, equal, t, vows;
 assert = require('assert');
 vows = require('vows');
-template = require('../lib/template.js');
-t = template.renderTemplate;
+t = require('wings').renderTemplate;
 equal = assert.equal;
-if (!(vows.add != null)) {
+if (!vows.add) {
   vows.add = function(name, batch) {
     return vows.describe(name).addBatch(batch)["export"](module);
   };

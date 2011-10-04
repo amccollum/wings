@@ -22,7 +22,7 @@
                 else return s
     
     parse_re = ///
-        \s* \{([!:]) \s* ([^}]*?) \s*\ } ([\S\s]+?) \s* \{/ \s* \2 \s*\} |     # sections
+        \s* \{([!:]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{\/ \s* \2 \s*\} |     # sections
         \{([@&]?) \s* ([^}]*?) \s* \} |                                        # tags
         \{(\#) \s* [\S\s]+? \s* \#\}                                           # comments
     ///mg
@@ -40,7 +40,12 @@
                         throw "Invalid section: #{data}: #{name}: #{value}"
         
                     else if isArray(value)
-                        return (renderRawTemplate(content, v, links) for v in value).join('')
+                        parts = []
+                        for v, i in value
+                            v['#'] = i
+                            parts.push(renderRawTemplate(content, v, links))
+                            
+                        return parts.join('')
         
                     else if typeof value == 'object'
                         return renderRawTemplate(content, value, links)

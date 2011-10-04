@@ -1,8 +1,7 @@
 assert = require('assert')
 vows = require('vows')
-template = require('../lib/template.js')
 
-t = template.renderTemplate
+t = require('wings').renderTemplate
 equal = assert.equal
 
 if not vows.add
