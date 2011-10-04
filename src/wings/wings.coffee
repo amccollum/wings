@@ -22,7 +22,7 @@
                 else return s
     
     parse_re = ///
-        \s* \{([?:!]+) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |     # sections
+        \s* \{([?:!]+) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |    # sections
         \{(\#) \s* [\S\s]+? \s* \#\} |                                          # comments
         \{([@&]?) \s* ([^}]*?) \s* \}                                           # tags
     ///mg
@@ -45,7 +45,7 @@
                     value = data[name]
                     if not value?
                         if op == ':'
-                            throw "Invalid section: #{data}: #{name}: #{value}"
+                            throw "Invalid section: #{JSON.stringify(data)}: #{name}"
                         else
                             return ""
         
@@ -73,7 +73,7 @@
                     value = data[name]
                     if not value?
                         if op == '!'
-                            throw "Invalid inverted section: #{data}: #{name}: #{value}"
+                            throw "Invalid inverted section: #{JSON.stringify(data)}: #{name}"
                         else
                             return ""
                         
@@ -90,7 +90,7 @@
                     link = if links then links[name] else null
                 
                     if not link?
-                        throw "Invalid link: #{links}: #{name}: #{link}"
+                        throw "Invalid link: #{JSON.stringify(links)}: #{name}"
                         
                     else if typeof link == 'function'
                         link = link.call(data)
@@ -107,7 +107,7 @@
                             value = null
                     
                     if not value?
-                        throw "Invalid value: #{data}: #{name}: #{value}"
+                        throw "Invalid value: #{JSON.stringify(data)}: #{name}"
                         
                     else if typeof value == 'function'
                         value = value.call(data)
@@ -115,6 +115,6 @@
                     return (if op == '&' then value else escapeXML(value))
 
                 else
-                    throw "Invalid op: #{op}"
+                    throw "Invalid section op: #{op}"
                         
 )(exports ? (@['wings'] = {}))
