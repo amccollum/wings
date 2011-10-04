@@ -1,11 +1,12 @@
 !((wings) ->
+    wings.strict = false
+
     wings.renderTemplate = (template, data, links) ->
         # Replace escaped braces with an obscure unicode curly brace
         template = replaceBraces(template)
         template = renderRawTemplate(template, data, links)
         template = restoreBraces(template)
         return template
-
 
     replaceBraces = (template) -> template.replace(/\{\{/g, '\ufe5b').replace(/\}\}/g, '\ufe5d')
     restoreBraces = (template) -> template.replace(/\ufe5b/g, '{').replace(/\ufe5d/g, '}')
@@ -22,7 +23,7 @@
                 else return s
     
     parse_re = ///
-        \s* \{([?:!]+) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |    # sections
+        \s* \{([:!]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |      # sections
         \{(\#) \s* [\S\s]+? \s* \#\} |                                          # comments
         \{([@&]?) \s* ([^}]*?) \s* \}                                           # tags
     ///mg
@@ -34,17 +35,10 @@
             content = section_content
 
             switch op
-                when '?' # existence section
-                    if name of data
-                        return renderRawTemplate(content, data, links)
-                        
-                    else
-                        return ""
-            
-                when ':', '?:' # section
+                when ':' # section
                     value = data[name]
                     if not value?
-                        if op == ':'
+                        if wings.strict
                             throw "Invalid section: #{JSON.stringify(data)}: #{name}"
                         else
                             return ""
@@ -72,7 +66,7 @@
                 when '!', '?!' # inverted section
                     value = data[name]
                     if not value?
-                        if op == '!'
+                        if wings.strict
                             throw "Invalid inverted section: #{JSON.stringify(data)}: #{name}"
                         else
                             return ""
@@ -90,7 +84,10 @@
                     link = if links then links[name] else null
                 
                     if not link?
-                        throw "Invalid link: #{JSON.stringify(links)}: #{name}"
+                        if wings.strict
+                            throw "Invalid link: #{JSON.stringify(links)}: #{name}"
+                        else
+                            return ""
                         
                     else if typeof link == 'function'
                         link = link.call(data)
@@ -105,7 +102,10 @@
                         value = value[part]
                     
                     if not value?
-                        throw "Invalid value: #{JSON.stringify(data)}: #{name}"
+                        if wings.strict
+                            throw "Invalid value: #{JSON.stringify(data)}: #{name}"
+                        else
+                            return ""
                         
                     else if typeof value == 'function'
                         value = value.call(data)
