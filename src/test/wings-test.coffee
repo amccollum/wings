@@ -77,6 +77,12 @@ vows.add 'templates'
             'should produce html': (topic) ->
                 equal topic, 'This should produce html: <b>bolded</b>'
 
+        'a template with tags having the value 0':
+            topic: t('This is a zero: {zero}', {zero: 0})
+        
+            'should preserve the zero': (topic) ->
+                equal topic, 'This is a zero: 0'
+
 
     'links:':
         'a template with a normal link':

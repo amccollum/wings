@@ -14,7 +14,7 @@
     isArray = Array.isArray ? ((o) -> Object.prototype.toString.call(o) == '[object Array]')
     
     escapeXML = (s) ->
-        return (s or '').toString().replace /&(?!\w+;)|["<>]/g, (s) ->
+        return s.toString().replace /&(?!\w+;)|["<>]/g, (s) ->
             switch s 
                 when '&' then return '&amp'
                 when '"' then return '\"'
