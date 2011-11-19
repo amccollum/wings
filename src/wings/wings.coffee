@@ -63,7 +63,7 @@
                     else
                         return ""
     
-                when '!', '?!' # inverted section
+                when '!' # inverted section
                     value = data[name]
                     if not value?
                         if wings.strict
