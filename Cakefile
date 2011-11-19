@@ -1,5 +1,4 @@
 fs = require('fs')
-sys = require('sys')
 {spawn, exec} = require('child_process')
 
 package = JSON.parse(fs.readFileSync('package.json', 'utf8'))
@@ -29,7 +28,9 @@ task 'test', 'Build and run the test suite', ->
 
         'pushd test',
         'ln -sfh ../node_modules node_modules',
+        'ln -sfh .. node_modules/wings',
         #'node_modules/.bin/ender build ender-vows ..',
         'node_modules/.bin/vows *-test.js',
+        'unlink node_modules/wings',
         'popd test',
     ]

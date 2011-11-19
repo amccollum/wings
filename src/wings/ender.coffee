@@ -1,4 +1,4 @@
-!(($) ->
+(($) ->
     renderTemplate = require('wings').renderTemplate
     $.ender({renderTemplate: renderTemplate})
     $.ender({

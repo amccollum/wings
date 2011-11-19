@@ -69,7 +69,7 @@ vows.add 'templates'
             topic: t('This shouldn\'t produce html: {html}', {html: '<b>bolded</b>'})
         
             'should escape the html reserved characters': (topic) ->
-                equal topic, 'This shouldn\'t produce html: &ltb&gtbolded&lt/b&gt'
+                equal topic, 'This shouldn\'t produce html: &lt;b&gt;bolded&lt;/b&gt;'
 
         'a template with unescaped tags':
             topic: t('This should produce html: {&html}', {html: '<b>bolded</b>'})

@@ -1,4 +1,4 @@
-!((wings) ->
+((wings) ->
     wings.strict = false
 
     wings.renderTemplate = (template, data, links) ->
@@ -16,10 +16,10 @@
     escapeXML = (s) ->
         return s.toString().replace /&(?!\w+;)|["<>]/g, (s) ->
             switch s 
-                when '&' then return '&amp'
+                when '&' then return '&amp;'
                 when '"' then return '\"'
-                when '<' then return '&lt'
-                when '>' then return '&gt'
+                when '<' then return '&lt;'
+                when '>' then return '&gt;'
                 else return s
     
     parse_re = ///
