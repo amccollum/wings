@@ -22,17 +22,17 @@
                 when '>' then return '&gt;'
                 else return s
     
-    parse_re = ///
+    parsePattern = ///
         \s* \{([:!]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |      # sections
-        \{(\#) \s* [\S\s]+? \s* \#\} |                                          # comments
+        \{(\#) [\S\s]+? \#\} |                                                  # comments
         \{([@&]?) \s* ([^}]*?) \s* \}                                           # tags
     ///mg
 
     renderRawTemplate = (template, data, links) ->
-        template.replace parse_re, (all, section_op, section_name, section_content, comment_op, tag_op, tag_name) ->
-            op = section_op or comment_op or tag_op
-            name = section_name or tag_name
-            content = section_content
+        template.replace parsePattern, (all, sectionOp, sectionName, sectionContent, commentOp, tagOp, tagName) ->
+            op = sectionOp or commentOp or tagOp
+            name = sectionName or tagName
+            content = sectionContent
 
             switch op
                 when ':' # section
