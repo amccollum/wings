@@ -11,7 +11,7 @@
     replaceBraces = (template) -> template.replace(/\{\{/g, '\ufe5b').replace(/\}\}/g, '\ufe5d')
     restoreBraces = (template) -> template.replace(/\ufe5b/g, '{').replace(/\ufe5d/g, '}')
     
-    isArray = Array.isArray ? ((o) -> Object.prototype.toString.call(o) == '[object Array]')
+    isArray = Array.isArray or ((o) -> Object.prototype.toString.call(o) == '[object Array]')
     
     escapeXML = (s) ->
         return s.toString().replace /&(?!\w+;)|["<>]/g, (s) ->
