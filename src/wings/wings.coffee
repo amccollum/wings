@@ -3,6 +3,7 @@
 
     wings.renderTemplate = (template, data, links) ->
         # Replace escaped braces with an obscure unicode curly brace
+        template = template.toString()
         template = replaceBraces(template)
         template = renderRawTemplate(template, data, links)
         template = restoreBraces(template)
@@ -17,13 +18,13 @@
         return s.toString().replace /&(?!\w+;)|["<>]/g, (s) ->
             switch s 
                 when '&' then return '&amp;'
-                when '"' then return '\"'
+                when '"' then return '&#34;'
                 when '<' then return '&lt;'
                 when '>' then return '&gt;'
                 else return s
     
     parsePattern = ///
-        \s* \{([:!]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \s*\} |      # sections
+        \{([:!]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \} |             # sections
         \{(\#) [\S\s]+? \#\} |                                                  # comments
         \{([@&]?) \s* ([^}]*?) \s* \}                                           # tags
     ///mg

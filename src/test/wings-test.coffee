@@ -23,7 +23,7 @@ vows.add 'templates'
             topic: [
                 t('I think, {{therefore I am.}}'),
                 t('I }}{{think, {{{{therefore I am.}}}}'),
-                t('nested {{ {:truthy} {{ braces }} {{ {/truthy} }}', {truthy: true}),
+                t('nested {{ {:truthy}{{ braces }} {{{/truthy} }}', {truthy: true}),
             ]
                 
             'should have double braces replaced with single braces': (topics) ->
@@ -175,13 +175,13 @@ vows.add 'templates'
                         tmpls: [
                             { name: 'tmpl1', text: 'The {adj1}, {adj2} fox {verb1} over the {adj3} dogs.' },
                             { name: 'tmpl2', text: '{:untrue}foo{/untrue}bar' },
-                            { name: 'tmpl3', text: 'nested {{ {:truthy} {{ braces }} {{ {/truthy} }}' },
+                            { name: 'tmpl3', text: 'nested {{ {:truthy}{{ braces }} {{{/truthy} }}' },
                         ]})
                        
             'should insert the subtemplates unmodified': (topic) ->
                 equal topic, '''tmpl1: 'The {adj1}, {adj2} fox {verb1} over the {adj3} dogs.',
                                 tmpl2: '{:untrue}foo{/untrue}bar',
-                                tmpl3: 'nested {{ {:truthy} {{ braces }} {{ {/truthy} }}',
+                                tmpl3: 'nested {{ {:truthy}{{ braces }} {{{/truthy} }}',
                              '''.replace(/\n/g, '')
 
         'templates with undefined sections':
