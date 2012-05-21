@@ -20,15 +20,15 @@ task 'test', 'Build and run the test suite', ->
         'ln -sf ../src/test/index.html test',
         'ln -sf ../src/test/vows.css test',
 
-        'npm install .',
-        'npm install --dev',
-        'ln -sfh ender-vows node_modules/vows',
+        'npm install',
+        'rm -f node_modules/wings node_modules/vows test/node_modules',
+        'ln -sf ender-vows node_modules/vows',
 
-        'pushd test',
-        'ln -sfh ../node_modules node_modules',
-        'ln -sfh .. node_modules/wings',
+        'cd test',
+        'ln -sf ../node_modules node_modules',
+        'ln -sf .. node_modules/wings',
         #'node_modules/.bin/ender build ender-vows ..',
         'node_modules/.bin/vows *-test.js',
-        'unlink node_modules/wings',
-        'popd test',
+        'rm -f node_modules/wings node_modules/vows node_modules',
+        'cd ..',
     ]
