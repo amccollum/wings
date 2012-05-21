@@ -24,9 +24,9 @@
                 else return s
     
     parsePattern = ///
-        \{([:!]) \s* ([^}]*?) \s* \} ([\S\s]+?) \s* \{/ \s* \2 \} |             # sections
+        \{([:!]) \s* ([^}\s]*?) \s* \} ([\S\s]+?) \{/ \s* \2 \s* \} |           # sections
         \{(\#) [\S\s]+? \#\} |                                                  # comments
-        \{([@&]?) \s* ([^}]*?) \s* \}                                           # tags
+        \{([@&]?) \s* ([^}\s]*?) \s* \}                                         # tags
     ///mg
 
     renderRawTemplate = (template, data, links) ->

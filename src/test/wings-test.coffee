@@ -77,6 +77,20 @@ vows.add 'templates'
             'should produce html': (topic) ->
                 equal topic, 'This should produce html: <b>bolded</b>'
 
+        'a template with unescaped tags (whitespace in tag)':
+            topic: [
+                t('This should produce html: {& html }', {html: '<b>bolded</b>'}),
+                t('This should produce html: {&  html}', {html: '<b>bolded</b>'}),
+                t('This should produce html: {&html  }', {html: '<b>bolded</b>'}),
+                t('This should produce html: {& \thtml \t\t}', {html: '<b>bolded</b>'}),
+            ]
+
+            'should produce html': (topics) ->
+                equal topics[0], 'This should produce html: <b>bolded</b>'
+                equal topics[1], 'This should produce html: <b>bolded</b>'
+                equal topics[2], 'This should produce html: <b>bolded</b>'
+                equal topics[3], 'This should produce html: <b>bolded</b>'
+
         'a template with tags having the value 0':
             topic: t('This is a zero: {zero}', {zero: 0})
         
@@ -90,6 +104,20 @@ vows.add 'templates'
         
             'should follow the link': (topic) ->
                 equal topic, 'baz' 
+
+        'a template with a normal link (whitespace in tag)':
+            topic: [
+                t('{@ foo }', {bar: '1baz'}, {foo:'{ bar }'})
+                t('{@  foo}', {bar: '2baz'}, {foo:'{bar   }'}),
+                t('{@foo  }', {bar: '3baz'}, {foo:'{bar   }'}),
+                t('{@ \tfoo\t\t}', {bar: '4baz'}, {foo:'{\tbar\t   }'}),
+            ]
+
+            'should produce html': (topics) ->
+                equal topics[0], '1baz'
+                equal topics[1], '2baz'
+                equal topics[2], '3baz'
+                equal topics[3], '4baz'
 
         'a template with a function link':
             topic: t('{@foo}', {bar: 'baz'}, {foo: () -> '{bar}'})
@@ -118,6 +146,20 @@ vows.add 'templates'
                 equal topics[4], 'foobar'
                 equal topics[5], 'foobar'
 
+        'templates with regular sections (whitespace in tags)':
+            topic: [
+                t('{:  falsy }foo{/falsy}1{:  truthy }bang{/truthy  }', {falsy: 0, truthy: 1}),
+                t('{:  falsy}foo{/  falsy}2{:  truthy }bang{/truthy  }', {falsy: 0, truthy: 1}),
+                t('{:falsy}foo{/ falsy }3{: truthy }bang{/  truthy  }', {falsy: 0, truthy: 1}),
+                t('{:\tfalsy\t}foo{/falsy}4{:\ttruthy\t}bang{/\ttruthy\t}', {falsy: 0, truthy: 1})
+            ]
+        
+            'should only include the section when the tag is truthy': (topics) ->
+                equal topics[0], '1bang'
+                equal topics[1], '2bang'
+                equal topics[2], '3bang'
+                equal topics[3], '4bang'
+
         'templates with inverse sections':
             topic: [
                 t('{!falsy}foo{/falsy}bar', {falsy: 0}),
@@ -136,6 +178,20 @@ vows.add 'templates'
                 equal topics[3], 'bar'
                 equal topics[4], 'bar'
                 equal topics[5], 'bar'
+
+        'templates with inverse sections (whitespace in tags)':
+            topic: [
+                t('{!  falsy }foo{/falsy}1{!  truthy }bang{/truthy  }', {falsy: 0, truthy: 1}),
+                t('{!  falsy}foo{/  falsy}2{!  truthy }bang{/truthy  }', {falsy: 0, truthy: 1}),
+                t('{!falsy}foo{/ falsy }3{! truthy }bang{/  truthy  }', {falsy: 0, truthy: 1}),
+                t('{!\tfalsy\t}foo{/falsy}4{!\ttruthy\t}bang{/\ttruthy\t}', {falsy: 0, truthy: 1})
+            ]
+        
+            'should only include the section when the tag is not truthy': (topics) ->
+                equal topics[0], 'foo1'
+                equal topics[1], 'foo2'
+                equal topics[2], 'foo3'
+                equal topics[3], 'foo4'
 
         'templates with array sections':
             topic: [
