@@ -28,7 +28,7 @@ task 'test', 'Build and run the test suite', ->
         'ln -sf ../node_modules node_modules',
         'ln -sf .. node_modules/wings',
         #'node_modules/.bin/ender build ender-vows ..',
-        'node_modules/.bin/vows *-test.js',
+        'node_modules/.bin/vows --spec *-test.js',
         'rm -f node_modules/wings node_modules/vows node_modules',
         'cd ..',
     ]

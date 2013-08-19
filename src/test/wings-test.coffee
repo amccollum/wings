@@ -7,7 +7,7 @@ equal = assert.equal
 if not vows.add
     vows.add = (name, batch) -> vows.describe(name).addBatch(batch).export(module)
 
-vows.add 'templates'
+vows.add 'templates',
     'basics:':
         'an empty template':
             topic: t('')
@@ -70,6 +70,12 @@ vows.add 'templates'
         
             'should escape the html reserved characters': (topic) ->
                 equal topic, 'This shouldn\'t produce html: &lt;b&gt;bolded&lt;/b&gt;'
+
+        'a template with JSON tags':
+            topic: t('This should produce json: {~ob}', { ob: ['a', 1, { 'b': 3 }]})
+        
+            'should produce json': (topic) ->
+                equal topic, 'This should produce json: ["a",1,{"b":3}]'
 
         'a template with unescaped tags':
             topic: t('This should produce html: {&html}', {html: '<b>bolded</b>'})

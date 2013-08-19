@@ -26,7 +26,7 @@
     parsePattern = ///
         \{([:!]) \s* ([^}\s]*?) \s* \} ([\S\s]+?) \{/ \s* \2 \s* \} |           # sections
         \{(\#) [\S\s]+? \#\} |                                                  # comments
-        \{([@&]?) \s* ([^}\s]*?) \s* \}                                         # tags
+        \{([@&~]?) \s* ([^}\s]*?) \s* \}                                         # tags
     ///mg
 
     renderRawTemplate = (template, data, links) ->
@@ -95,7 +95,7 @@
 
                     return renderRawTemplate(replaceBraces(link), data, links)
 
-                when '&', '' # value tag
+                when  '~', '&', '' # value tag
                     value = data
                     rest = name
                     while value and rest
@@ -111,7 +111,12 @@
                     else if typeof value == 'function'
                         value = value.call(data)
 
-                    return (if op == '&' then value else escapeXML(value))
+                    if op == '~'
+                        return JSON.stringify(value)
+                    else if op == '&'
+                        return value
+                    else
+                        return escapeXML(value)
 
                 else
                     throw "Invalid section op: #{op}"
